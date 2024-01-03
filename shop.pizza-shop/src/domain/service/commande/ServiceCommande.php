@@ -32,7 +32,7 @@ class ServiceCommande implements interphasecommander {
     public function accederCommande(string $commandeId): CommandeDTO {
         try {
             $commande = Commande::findOrFail($commandeId);
-        }catch (Exception $e){
+        }catch (ModelNotFoundException $e){
                 throw new ServiceCommandeNotFoundException("La commande $commandeId n'existe pas");
             }
             return $commande->toDTO();
@@ -49,8 +49,14 @@ class ServiceCommande implements interphasecommander {
      * @throws ServiceException Si une erreur survient lors de la modification de la commande.
      */
     public function validerCommande(string $commandeId): CommandeDTO{
-
+        try {
+            $commande = Commande::findOrFail($commandeId);
+            $commande->valider();
+            $commande->save();
+            return $commande->toDTO();
+        }catch (ModelNotFoundException $e){
+                throw new ServiceCommandeNotFoundException("La commande $commandeId n'existe pas");
+            }
+           
     }
-
-
 }

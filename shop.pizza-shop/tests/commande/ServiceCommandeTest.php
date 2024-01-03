@@ -64,8 +64,6 @@ class ServiceCommandeTest extends \PHPUnit\Framework\TestCase {
  
             // TODO : comparer les données de l'entité et du DTO
         }
-
-
     }
 
 }

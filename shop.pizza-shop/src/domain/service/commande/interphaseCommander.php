@@ -22,14 +22,5 @@ interface interphasecommander{
      */
     public function validerCommande(string $commandeId): CommandeDTO;
     
-    /**
-     * Modifie une commande spécifique en utilisant son identifiant et de nouvelles données.
-     *
-     * @param string $commandeId L'identifiant de la commande à modifier.
-     * @param CommandeDTO $nouvellesDonnees Les nouvelles données de la commande.
-     * @return CommandeDTO La commande modifiée.
-     * @throws ServiceCommandeNotFoundException Si la commande n'est pas trouvée.
-     * @throws ServiceException Si une erreur survient lors de la modification de la commande.
-     */
-    public function modifierCommande(string $commandeId, CommandeDTO $nouvellesDonnees): CommandeDTO;
+   
 }
