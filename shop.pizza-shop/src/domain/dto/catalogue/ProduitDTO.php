@@ -19,7 +19,4 @@ class ProduitDTO extends \pizzashop\shop\domain\dto\DTO
         $this->libelle_taille = $libelle_taille;
         $this->tarif = $tarif;
     }
-
-
-
 }
