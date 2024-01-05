@@ -3,7 +3,7 @@ namespace pizzashop\shop\domaine\service\commande;
 
 use pizzashop\shop\domaine8\dto\commande\CommandeDTO;
 
-interface interphasecommander{
+interface interfaceCommander{
     /**
      * Accède à une commande spécifique en utilisant son identifiant.
      *

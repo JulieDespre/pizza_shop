@@ -14,14 +14,16 @@ class ServiceCommandeTest extends \PHPUnit\Framework\TestCase {
     private static $itemIds = [];
     private static $serviceProduits;
     private static $serviceCommande;
-    private static $faker;
+    private static $faker;// remplit la base de données avec des données de test
 
+    //environ beaforeach ou before all 
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         $dbcom = __DIR__ . '/../../config/commande.db.test.ini';
         $dbcat = __DIR__ . '/../../config/catalog.db.ini';
         $db = new DB();
+        echo('coucou'.$dbcom);
         $db->addConnection(parse_ini_file($dbcom), 'commande');
         $db->addConnection(parse_ini_file($dbcat), 'catalog');
         $db->setAsGlobal();
@@ -50,8 +52,26 @@ class ServiceCommandeTest extends \PHPUnit\Framework\TestCase {
         }
     }
     private static function fill() {
-
    	 	// TODO : créer une commande dans la base pour tester l'accès à une commande
+            $commande = Commande::create([
+                'id' => self::$faker->uuid,
+                'date_commande' => self::$faker->dateTimeBetween('-3 year', 'now')->format('Y-m-d H:i:s'),
+                'type_livraison' => Commande::LIVRAISON_DOMICILE,
+                'mail_client' => self::$faker->email,
+                'etat' => Commande::ETAT_CREE
+            ]);
+        echo $commande->id_commande;
+        echo ("coucou");
+        self::$commandeIds[] = $commande->id_commande;
+        // TODO : créer des items dans la base pour tester l'accès à une commande
+        //$item = new Item();
+        //$item->id_item = self::$faker->uuid;
+        //$item->numero = self::$faker->randomDigit;
+        //$item->taille = self::$faker->randomElement(['petite', 'moyenne', 'grande']);
+        //$item->quantite = self::$faker->randomDigit;
+        //$item->id_commande = $commande->id_commande;
+        //$item->save();
+        //self::$itemIds[] = $item->id_item;
     }
 
 

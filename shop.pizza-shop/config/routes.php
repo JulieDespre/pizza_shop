@@ -11,4 +11,7 @@ return function( \Slim\App $app):void {
 
     $app->get('/commandes/{id_commande}[/]', \pizzashop\shop\app\actions\AccederCommandeAction::class)
         ->setName('commande');
+    
+    $app->patch('/commandes/{id_commande}[/]', \pizzashop\shop\app\actions\ValiderCommandeAction::class)
+        ->setName('valider_commande');
 };
