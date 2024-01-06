@@ -1,11 +1,10 @@
 <?php
 
-namespace pizzashop\shop\domain\service\catalogue;
+namespace pizzashop\shop\domain\service\catalogue\interfaceCatalogue;
 
 use pizzashop\shop\domain\dto\catalogue\ProduitDTO;
 
-interface interfaceInfoCatalogue
-{
+interface interfaceCatalogue{
     /**
      * Récupère un produit spécifique en utilisant son identifiant.
      *
@@ -14,5 +13,5 @@ interface interfaceInfoCatalogue
      * @return ProduitDTO Le produit correspondant.
      * @throws ServiceCatalogueNotFoundException Si le produit n'est pas trouvé.
      */
-    function getProduit(int $numero, int $taille): ProduitDTO;
+    public function getProduit(int $numero): ProduitDTO;
 }

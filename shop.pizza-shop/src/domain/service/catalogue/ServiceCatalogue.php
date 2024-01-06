@@ -4,14 +4,16 @@ namespace pizzashop\shop\domain\service\catalogue;
 
 use pizzashop\shop\domain\dto\catalogue\ProduitDTO;
 use pizzashop\shop\domain\entities\catalogue\Produit;
+use pizzashop\shop\domain\service\exception\ServiceCatalogueNotFoundException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class ServiceCatalogue implements iInfoCatalogue
+class ServiceCatalogue implements interfaceCatalogue
 {
-    private $catalogue;
+    //private $catalogue;
 
     public function __construct()
     {
-        $this->catalogue = new Catalogue();
+        //$this->catalogue = new Catalogue();
     }
 
     /**
@@ -22,7 +24,7 @@ class ServiceCatalogue implements iInfoCatalogue
      * @return ProduitDTO Le produit correspondant.
      * @throws ServiceCatalogueNotFoundException Si le produit n'est pas trouvé.
      */
-    function getProduit(int $numero, int $taille): ProduitDTO
+    function getProduit(int $numero): ProduitDTO
     {
         try{
         $produit = Produit::where('numero', $numero) -> firstOfFail($numero);

@@ -1,7 +1,7 @@
 <?php 
-namespace pizzashop\shop\domaine\service\commande;
+namespace pizzashop\shop\domaine\service\commande\interfaceCommander;
 
-use pizzashop\shop\domaine8\dto\commande\CommandeDTO;
+use pizzashop\shop\domaine\dto\commande\CommandeDTO;
 
 interface interfaceCommander{
     /**

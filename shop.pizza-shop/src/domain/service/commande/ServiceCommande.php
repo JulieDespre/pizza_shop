@@ -1,9 +1,9 @@
 <?php
-use Exception;
+//use Exception;
 use pizzashop\shop\domain\dto\commande\CommandeDTO;
 use pizzashop\shop\domain\entities\commande\Commande;
 use pizzashop\shop\domain\entities\commande\Item;
-use pizzashop\shop\domain\service\catalogue\iInfoCatalogue;
+use pizzashop\shop\domain\service\catalogue\interfaceCatalogue;
 use pizzashop\shop\domain\service\catalogue\ServiceCatalogueNotFoundException;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
@@ -13,7 +13,7 @@ use Respect\Validation\Validator as validate;
 /**
  * Service de gestion des commandes.
  */
-class ServiceCommande implements interphasecommander {
+class ServiceCommande implements interfaceCommander {
 
     private interfaceInfoCatalogue $serviceCatalogue;
     private LoggerInterface $logger;

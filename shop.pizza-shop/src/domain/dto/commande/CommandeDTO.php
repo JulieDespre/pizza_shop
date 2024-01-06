@@ -10,7 +10,7 @@ class CommandeDTO {
     public float $montant_total;
     public string $mail_client;
     public string $delai;
-    public array $items;
+    public array $items = [];
    
     /**
      * CommandeDTO constructor.
@@ -18,13 +18,22 @@ class CommandeDTO {
      * @param string $mail_client
      * @param string $type_livraison
      * @param array $items
+     * @return void
      */
-    public function __construct(string $id, string $mail_client, string $type_livraison, array $items){
-        $this->id = $id;
+    public function __construct(string $mail_client, string $type_livraison, array $items){
         $this->mail_client = $mail_client;
         $this->type_livraison = $type_livraison;
         foreach ($items as $item){
-            $this->items[] = new ItemDTO($item['numero'], $item['taille'], $item['quantite']);       
+            $this->items[] = $item->toDTO();       
         }
+    }
+
+    /**
+     * Ajoute un item à la commande.
+     * @param Item $item
+     * @return void
+     */
+    public function addItem(Item $item) {
+        $this->items[] = $item->toDTO();
     }
 }
