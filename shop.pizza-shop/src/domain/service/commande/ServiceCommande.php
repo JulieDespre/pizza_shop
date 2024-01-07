@@ -1,10 +1,16 @@
 <?php
-//use Exception;
+
+namespace pizzashop\shop\domain\service\commande;
+
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use pizzashop\shop\domain\dto\commande\CommandeDTO;
 use pizzashop\shop\domain\entities\commande\Commande;
 use pizzashop\shop\domain\entities\commande\Item;
-use pizzashop\shop\domain\service\catalogue\interfaceCatalogue;
-use pizzashop\shop\domain\service\catalogue\ServiceCatalogueNotFoundException;
+use pizzashop\shop\domain\service\exception\ServiceCommandeInvalidItemException;
+use pizzashop\shop\domain\service\exception\ServiceCommandeInvalidTransitionException;
+use pizzashop\shop\domain\service\exception\ServiceCommandeInvialideException;
+use pizzashop\shop\domain\service\exception\ServiceCommandeNotFoundException;
+use pizzashop\shop\domain\service\exception\ServiceProduitNotFoundException;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
 use Respect\Validation\Exceptions\NestedValidationException;
@@ -13,15 +19,19 @@ use Respect\Validation\Validator as validate;
 /**
  * Service de gestion des commandes.
  */
-class ServiceCommande implements interfaceCommander {
+class ServiceCommande implements iCommander {
 
-    private interfaceInfoCatalogue $serviceCatalogue;
+    private \pizzashop\shop\domain\service\catalogue\iInfoCatalogue $serviceCatalogue;
     private LoggerInterface $logger;
 
-    function __construct(interfaceInfoCatalogue $serviceCatalogue, LoggerInterface $logger){
+    function __construct(\pizzashop\shop\domain\service\catalogue\iInfoCatalogue $serviceCatalogue){
+        $this->serviceCatalogue = $serviceCatalogue;
+    }
+
+    /*function __construct(\pizzashop\shop\domain\service\catalogue\iInfoCatalogue $serviceCatalogue, LoggerInterface $logger){
         $this->serviceCatalogue = $serviceCatalogue;
         $this->logger = $logger;
-    }
+    }*/
     /**
      * Accède à une commande spécifique en utilisant son identifiant.
      *

@@ -6,6 +6,7 @@
       <path value="$PROJECT_DIR$/shop.pizza-shop/vendor/carbonphp/carbon-doctrine-types" />
       <path value="$PROJECT_DIR$/shop.pizza-shop/vendor/composer" />
       <path value="$PROJECT_DIR$/shop.pizza-shop/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/shop.pizza-shop/vendor/fakerphp/faker" />
       <path value="$PROJECT_DIR$/shop.pizza-shop/vendor/fig/http-message-util" />
       <path value="$PROJECT_DIR$/shop.pizza-shop/vendor/guzzlehttp/guzzle" />
       <path value="$PROJECT_DIR$/shop.pizza-shop/vendor/guzzlehttp/promises" />

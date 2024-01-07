@@ -5,14 +5,14 @@ networks:
 services:
 
 
-  # service api.pizza-shop : api pour la prise de commandes
+  # Service API PHP
   #
-  api.pizza-shop:
+  #shop.pizza-shop : service php pour les commandes
+  shop.pizza-shop:
     image: 'canals/php:8.2'
     env_file: ./shop.env
     ports:
       - '2080:80'
-      - '1443:443'
     volumes:
       - ../shop.pizza-shop/public:/var/www/html
       - ../shop.pizza-shop:/var/www
@@ -20,9 +20,26 @@ services:
     networks:
       pizza-shop.net:
         aliases:
-          - api.pizza-shop.local
+          - shop.pizza-shop.local
     depends_on:
       - pizza-shop.commande.db
+
+
+      #shop.pizza-shop : service php pour le catalogue
+  catalogue.pizza-shop:
+    image: 'canals/php:8.2'
+    env_file: ./cat.env
+    ports:
+      - '2090:80'
+    volumes:
+      - ../shop.pizza-shop/public:/var/www/html
+      - ../shop.pizza-shop:/var/www
+    working_dir: /var/www/
+    networks:
+      pizza-shop.net:
+        aliases:
+          - catalogue.pizza-shop.local
+    depends_on:
       - pizza-shop.catalogue.db
 
 
@@ -50,7 +67,7 @@ services:
     networks:
       - pizza-shop.net
     volumes:
-      - ../shop.pizza-shop/sql:/var/sql'
+      - ../catalogue.pizza-shop/sql:/var/sql'
   #
   # service administration des bases sql
   #

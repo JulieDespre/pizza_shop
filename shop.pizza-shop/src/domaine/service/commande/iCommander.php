@@ -1,9 +1,10 @@
 <?php 
-namespace pizzashop\shop\domaine\service\commande\interfaceCommander;
+namespace pizzashop\shop\domaine\service\commande;
 
 use pizzashop\shop\domaine\dto\commande\CommandeDTO;
 
-interface interfaceCommander{
+interface iCommander
+{
     /**
      * Accède à une commande spécifique en utilisant son identifiant.
      *

@@ -11,8 +11,8 @@ class Commande extends \Illuminate\Database\Eloquent\Model
     const ETAT_LIVREE = 4;
 
     const LIVRAISON_SUR_PLACE = 1;
-    const LIVRAISON_DOMICILE = 2;
     const LIVRAISON_A_EMPORTER = 3;
+    const LIVRAISON_A_DOMICILE = 2;
 
     protected $connection = 'commande';
     protected $table = 'commande';
@@ -51,4 +51,5 @@ class Commande extends \Illuminate\Database\Eloquent\Model
 
     return $commandeDTO;
     }
+
 }
