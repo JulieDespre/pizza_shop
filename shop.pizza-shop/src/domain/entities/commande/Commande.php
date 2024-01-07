@@ -25,6 +25,18 @@ class Commande extends \Illuminate\Database\Eloquent\Model
         return $this->hasMany(Item::class, 'id');
     }
 
+    public function calculerMontantTotal($id)
+    {
+        $commande = Commande::find($id);
+        $items = $commande->items;
+        $montant = 0;
+        foreach ($items as $item) {
+            $montant += $item->tarif * $item->quantite;
+        }
+        $commande->montant_total = $montant;
+        $commande->save();
+    }
+
     public function toDTO(): CommandeDTO{
     // Création d'un objet CommandeDTO avec quelques attributs de la commande actuelle
     $commandeDTO = new CommandeDTO(

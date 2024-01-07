@@ -78,8 +78,8 @@ class ServiceCommandeTest extends \PHPUnit\Framework\TestCase {
             /**s
              * des items
              */
-            $nbItems = self::$faker->numberBetween(1, 5);
-            for ($j = 0; $j < 3; $j++) {
+            $nbItems = self::$faker->numberBetween(1, 8);
+            for ($j = 0; $j < $nbItems; $j++) {
                 $item = new \pizzashop\shop\domain\entities\commande\Item();
                 $numero = self::$faker->numberBetween(1, 10);
                 $taille = self::$faker->randomElement([1, 2]);
@@ -95,7 +95,7 @@ class ServiceCommandeTest extends \PHPUnit\Framework\TestCase {
                 $item->libelle_taille = $tls->libelle;
 
                 $commande->items()->save($item);
-//                $commande->save();
+                // $commande->save();
                 self::$itemIds[] = $item->id;
             }
             $commande->calculerMontantTotal($commande->id);

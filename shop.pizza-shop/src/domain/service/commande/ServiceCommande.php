@@ -59,17 +59,21 @@ class ServiceCommande implements iCommander {
      * @throws ServiceException Si une erreur survient lors de la modification de la commande.
      */
     public function validerCommande(string $commandeId): CommandeDTO{
-        try {
-            $commande = Commande::findOrFail($commandeId);
-            $commande->valider();
-            $commande->save();
-            return $commande->toDTO();
-        }catch (ModelNotFoundException $e){
-                throw new ServiceCommandeNotFoundException("La commande $commandeId n'existe pas");
-            }
-           
+     try {
+            $commande = Commande::where('id', $UUID)->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            throw new ServiceCommandeNotFoundException($UUID);
+        }
+        if ($commande->etat >= Commande::ETAT_VALIDE) {
+            throw new ServiceCommandeInvalidTransitionException($UUID);
+        }
+        $commande->update(['etat' => Commande::ETAT_VALIDE]);
+        $this->logger->info("Commande $UUID validée");
+        
+        
+        return $commande->toDTO();
     }
-
+    
     /**
      * Crée une nouvelle commande.
      *
@@ -81,11 +85,15 @@ class ServiceCommande implements iCommander {
         //valide les données de la commande
         this->validerDonneesDeCommande($commandeDTO);
         
-        //créer une commande 
-        $commande->id = Uuid::uuid4();//génère unique ID
+        //créer donnée de la commande 
+        $commandeDTO->id = Uuid::uuid4();//génère unique ID
+        $commandeDTO->date_commande = date('Y-m-d H:i:s');
+        $commandeDTO->etat = Commande::ETAT_CREE;
+        $commandeDTO->delai = 0;
+
 
         $commande = Commande::create([
-            'id' => $uuid4->toString(),
+            'id' => $commandeDTO->id,
             'date_commande' => date('Y-m-d H:i:s'),
             'type_livraison' => $commandeDTO->type_livraison,
             'etat' => Commande::ETAT_CREE,
