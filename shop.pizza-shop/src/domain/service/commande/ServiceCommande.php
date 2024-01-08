@@ -24,14 +24,14 @@ class ServiceCommande implements iCommander {
     private \pizzashop\shop\domain\service\catalogue\iInfoCatalogue $serviceCatalogue;
     private LoggerInterface $logger;
 
-    function __construct(\pizzashop\shop\domain\service\catalogue\iInfoCatalogue $serviceCatalogue){
+    /*function __construct(\pizzashop\shop\domain\service\catalogue\iInfoCatalogue $serviceCatalogue){
         $this->serviceCatalogue = $serviceCatalogue;
-    }
+    }*/
 
-    /*function __construct(\pizzashop\shop\domain\service\catalogue\iInfoCatalogue $serviceCatalogue, LoggerInterface $logger){
+    function __construct(\pizzashop\shop\domain\service\catalogue\iInfoCatalogue $serviceCatalogue, LoggerInterface $logger){
         $this->serviceCatalogue = $serviceCatalogue;
         $this->logger = $logger;
-    }*/
+    }
     /**
      * Accède à une commande spécifique en utilisant son identifiant.
      *
@@ -117,6 +117,7 @@ class ServiceCommande implements iCommander {
         
         }
         $commande->save();
+        $this->logger->info("Nouvelle commande créée avec l'ID: " . $commandeDTO->id);
         return $commandeDTO;
     }
  
