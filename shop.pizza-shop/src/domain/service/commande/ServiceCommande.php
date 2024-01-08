@@ -94,11 +94,11 @@ class ServiceCommande implements iCommander {
 
         $commande = Commande::create([
             'id' => $commandeDTO->id,
-            'date_commande' => date('Y-m-d H:i:s'),
+            'date_commande' => $commandeDTO->date_commande,
             'type_livraison' => $commandeDTO->type_livraison,
-            'etat' => Commande::ETAT_CREE,
+            'etat' => $commandeDTO->etat,
             'mail_client' => $commandeDTO->mail_client,
-            'delai' => 0
+            'delai' => $commandeDTO->delai,
         ]);
 
         //creer les items d'une commande
@@ -113,7 +113,10 @@ class ServiceCommande implements iCommander {
             $item->save();
             $itemDTO->id = $item->id;
             $commandeDTO->items[] = $itemDTO;
+
+        
         }
+        $commande->save();
         return $commandeDTO;
     }
  
