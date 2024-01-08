@@ -6,7 +6,7 @@ Installation
 
     Clonez le dépôt sur votre machine locale :
 
-git clone https://github.com/votre-nom-utilisateur/nrv.net.git
+git clone https://github.com/JulieDespre/pizza_shop.git
 cd pizza.shop.components
 
     Utilisez Docker Compose pour démarrer les composants nécessaires. Exécutez la commande suivante à la racine du projet :
