@@ -95,7 +95,7 @@ class ServiceCommandeTest extends \PHPUnit\Framework\TestCase {
                 $item->libelle_taille = $tls->libelle;
 
                 $commande->items()->save($item);
-                // $commande->save();
+        
                 self::$itemIds[] = $item->id;
             }
             $commande->calculerMontantTotal($commande->id);
