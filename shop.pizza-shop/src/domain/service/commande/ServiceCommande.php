@@ -60,15 +60,15 @@ class ServiceCommande implements iCommander {
      */
     public function validerCommande(string $commandeId): CommandeDTO{
      try {
-            $commande = Commande::where('id', $UUID)->firstOrFail();
+            $commande = Commande::where('id', $commandeId)->firstOrFail();
         } catch (ModelNotFoundException $e) {
-            throw new ServiceCommandeNotFoundException($UUID);
+            throw new ServiceCommandeNotFoundException($commandeId);
         }
         if ($commande->etat >= Commande::ETAT_VALIDE) {
-            throw new ServiceCommandeInvalidTransitionException($UUID);
+            throw new ServiceCommandeInvalidTransitionException($commandeId);
         }
         $commande->update(['etat' => Commande::ETAT_VALIDE]);
-        $this->logger->info("Commande $UUID validée");
+        $this->logger->info("Commande $commandeId validée");
         
         
         return $commande->toDTO();
