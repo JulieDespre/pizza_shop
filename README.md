@@ -56,6 +56,7 @@ importer les 2 fichiers .sql -> pizza.shop/shop.pizza-shop/sql/
 ## Auteur :
 
 Julie Despré
+Sarah Chrusiel
 
 ## lien GIT :
 
