@@ -7,16 +7,19 @@ Installation
     Clonez le dépôt sur votre machine locale :
 
 git clone https://github.com/JulieDespre/pizza_shop.git
-cd pizza.shop.components
 
-    Utilisez Docker Compose pour démarrer les composants nécessaires. Exécutez la commande suivante à la racine du projet :
+    Utilisez Docker Compose pour démarrer les composants nécessaires. Exécutez la commande suivante :
+
+cd pizza.shop.components
 
 lancer Docker : docker compose up -d
 
     Installez les dépendances du projet en utilisant Composer. Exécutez les commandes suivantes dans les répertoires respectifs :
 
 cd ..
-composer install
+docker exec -it pizzashopcomponents-catalogue.pizza-shop-1 bash
+
+puis dans le contener : composer install
 
 Cette commande démarrera les services requis en mode détaché.
 
@@ -57,6 +60,7 @@ importer les 2 fichiers .sql -> pizza.shop/shop.pizza-shop/sql/
 
 Julie Despré
 Sarah Chrusiel
+Matthéo Termine
 
 ## lien GIT :
 
