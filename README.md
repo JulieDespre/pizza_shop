@@ -16,11 +16,11 @@ Utilisez Docker Compose pour démarrer les composants nécessaires. Exécutez la
 
 Installez les dépendances du projet en utilisant Composer. Exécutez les commandes suivantes dans les répertoires respectifs :
 
-    cd ..
+    cd ../
 
     docker exec -it pizzashopcomponents-catalogue.pizza-shop-1 bash
 
-puis dans le contener : 
+puis dans le container : 
     
     composer install
 
