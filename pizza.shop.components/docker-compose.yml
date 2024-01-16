@@ -4,6 +4,26 @@ networks:
     driver: bridge
 services:
 
+  #######################################
+  ### RabbitMQ Service
+  ###
+  #######################################
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - '15672:15672'
+      - '5672:5672'
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 8s
+      timeout: 30s
+      retries: 3
+    networks:
+      - pizza-shop.net
+    volumes:
+      - ../rabbitmq.pizza-shop:/var/lib/rabbitmq
+    env_file: ./rab.env
+
 
   # Service API PHP
   #
@@ -77,6 +97,8 @@ services:
       - '8080:8080'
     networks:
       - pizza-shop.net
+
+
 
 ######################################
 ###  AUTH Service : service d'authentification JWT
