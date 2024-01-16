@@ -22,7 +22,9 @@ services:
       - pizza-shop.net
     volumes:
       - ../rabbitmq.pizza-shop:/var/lib/rabbitmq
-    env_file: ./rab.env
+    env_file:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=@dm1#!
 
 
   # Service API PHP
