@@ -8,18 +8,18 @@ use Psr\Container\ContainerInterface;
 
 // Définition des actions avec leur nom de clé associé
 $actions = [
-    'commande' => function (ContainerInterface $c) {
+    'commande.access' => function (ContainerInterface $c) {
         return new AccederCommandeAction($c);
     },
-    // 'commande.validate' => function (ContainerInterface $c) {
-    //     return new ValiderCommandeAction($c);
-    // },
-    // 'commande.create' => function (ContainerInterface $c) {
-    //     return new CreerCommandeAction($c);
-    // },
-    // 'commande.auth' => function () {
-    //     return new ConnectionAction();
-    // }
+    'commande.validate' => function (ContainerInterface $c) {
+        return new ValiderCommandeAction($c);
+    },
+    'commande.create' => function (ContainerInterface $c) {
+        return new CreerCommandeAction($c);
+    },
+    'commande.auth' => function () {
+        return new ConnectionAction();
+    }
 ];
 
 // Retourne le tableau associatif des actions configurées

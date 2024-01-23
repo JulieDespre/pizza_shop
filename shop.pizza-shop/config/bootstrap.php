@@ -27,7 +27,7 @@ $app = AppFactory::createFromContainer($container);
 // Configuration de la connexion à la base de données avec Eloquent
 $capsule = new Manager();
 $capsule->addConnection(parse_ini_file(__DIR__ . '/commande.db.ini'), 'commande');
-$capsule->addConnection(parse_ini_file(__DIR__ . '/catalog.db.ini'), 'catalog');
+$capsule->addConnection(parse_ini_file(__DIR__ . 'catalog.db.ini'), 'catalog');
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
