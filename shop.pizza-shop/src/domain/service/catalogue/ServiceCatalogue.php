@@ -22,7 +22,7 @@ class ServiceCatalogue implements \pizzashop\shop\domain\service\catalogue\iInfo
      * @return ProduitDTO
      * @throws ServiceProduitNotFoundException
      */
-    function getProduit($numero) : ProduitDTO {
+    function getProduit(int $numero, int $taille) : ProduitDTO {
         try {
             $produit = Produit::where('numero', '=', $numero)->firstOrFail();
         }catch (ModelNotFoundException $e) {
@@ -37,7 +37,7 @@ class ServiceCatalogue implements \pizzashop\shop\domain\service\catalogue\iInfo
      * @return array
      * @throws ServiceProduitNotFoundException
      */
-    function getProduitByNum($numero) : array {
+    function getProduitByNum(int $numero) : array {
         //get un produit et le retourne en tant que tableau, affiche son prix en fonction de chaque taille
         try {
             $produit = Produit::where('numero', '=', $numero)->firstOrFail();

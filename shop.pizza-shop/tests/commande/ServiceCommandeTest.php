@@ -30,9 +30,7 @@ class ServiceCommandeTest extends \PHPUnit\Framework\TestCase {
         $db->setAsGlobal();
         $db->bootEloquent();
 
-        $logger = new Logger('app');
-        $logger->pushHandler(new StreamHandler('/../../config/log/logFile.txt', Logger::INFO));
-        echo __DIR__ . '../../config/log/logFile.txt';
+        
         self::$serviceProduits = new \pizzashop\shop\domain\service\catalogue\ServiceCatalogue();
         self::$serviceCommande = new \pizzashop\shop\domain\service\commande\ServiceCommande(self::$serviceProduits, $logger);
         self::$faker = Factory::create('fr_FR');
@@ -64,7 +62,7 @@ class ServiceCommandeTest extends \PHPUnit\Framework\TestCase {
 
         for ($i = 1; $i <8 ; $i++) {
             $commande = new \pizzashop\shop\domain\entities\commande\Commande();
-            $commande->id = self::$faker->numberBetween(1000, 9999);
+            $commande->id = self::$faker->uuid;
             $commande->type_livraison = self::$faker->randomElement([
                 Commande::LIVRAISON_SUR_PLACE, Commande::LIVRAISON_A_EMPORTER, Commande::LIVRAISON_A_DOMICILE
             ]);
@@ -83,7 +81,8 @@ class ServiceCommandeTest extends \PHPUnit\Framework\TestCase {
                 $item = new \pizzashop\shop\domain\entities\commande\Item();
                 $numero = self::$faker->numberBetween(1, 10);
                 $taille = self::$faker->randomElement([1, 2]);
-                $produit = self::$serviceProduits->getProduit($numero);
+                
+                $produit = self::$serviceProduits->getProduit($numero, $taille);
 
                 $item->numero = $numero;
                 $item->libelle = $produit->libelle_produit;
@@ -91,11 +90,8 @@ class ServiceCommandeTest extends \PHPUnit\Framework\TestCase {
                 $item->tarif = $produit->tarif;
                 $item->quantite = self::$faker->numberBetween(1, 5);
 
-                $tls = Taille::where('id', '=', $taille)->first();
-                $item->libelle_taille = $tls->libelle;
-
                 $commande->items()->save($item);
-        
+                $commande->save();
                 self::$itemIds[] = $item->id;
             }
             $commande->calculerMontantTotal($commande->id);
