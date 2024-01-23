@@ -83,7 +83,7 @@ class ServiceCommande implements iCommander {
      */
     public function creerCommande (CommandeDTO $commandeDTO): CommandeDTO{
         //valide les données de la commande
-        this->validerDonneesDeCommande($commandeDTO);
+        $this->validerDonneesDeCommande($commandeDTO);
         
         //créer donnée de la commande 
         $commandeDTO->id = Uuid::uuid4();//génère unique ID
@@ -125,7 +125,8 @@ class ServiceCommande implements iCommander {
         try {
 
             validate::attribute('mail_client', validate::email())
-                ->attribute('type_livraison', validate::in([Commande::LIVRAISON_SUR_PLACE, Commande::LIVRAISON_A_EMPORTER, Commande::LIVRAISON_DOMICILE]))
+                ->attribute('type_livraison', validate::in([Commande::LIVRAISON_SUR_PLACE,
+                    Commande::LIVRAISON_A_EMPORTER, Commande::LIVRAISON_A_DOMICILE]))
                 ->attribute('items', validate::array()->notEmpty()
                     ->each(validate::attribute('numero', validate::intVal()->positive())
                     ->attribute('taille', validate::in([1,2]))
