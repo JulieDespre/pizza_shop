@@ -32,7 +32,7 @@ class ServiceCommandeTest extends \PHPUnit\Framework\TestCase {
 
         
         self::$serviceProduits = new \pizzashop\shop\domain\service\catalogue\ServiceCatalogue();
-        self::$serviceCommande = new \pizzashop\shop\domain\service\commande\ServiceCommande(self::$serviceProduits , new Logger('test'));
+        self::$serviceCommande = new \pizzashop\shop\domain\service\commande\ServiceCommande(self::$serviceProduits, $logger);
         self::$faker = Factory::create('fr_FR');
         self::fillDB();
         print_r(self::$commandeIds);
@@ -61,7 +61,7 @@ class ServiceCommandeTest extends \PHPUnit\Framework\TestCase {
         }*/
 
         for ($i = 1; $i <8 ; $i++) {
-            $commande = new Commande();
+            $commande = new \pizzashop\shop\domain\entities\commande\Commande();
             $commande->id = self::$faker->uuid;
             $commande->type_livraison = self::$faker->randomElement([
                 Commande::LIVRAISON_SUR_PLACE, Commande::LIVRAISON_A_EMPORTER, Commande::LIVRAISON_A_DOMICILE
@@ -78,7 +78,7 @@ class ServiceCommandeTest extends \PHPUnit\Framework\TestCase {
              */
             $nbItems = self::$faker->numberBetween(1, 8);
             for ($j = 0; $j < $nbItems; $j++) {
-                $item = new Item();
+                $item = new \pizzashop\shop\domain\entities\commande\Item();
                 $numero = self::$faker->numberBetween(1, 10);
                 $taille = self::$faker->randomElement([1, 2]);
                 
@@ -106,7 +106,7 @@ class ServiceCommandeTest extends \PHPUnit\Framework\TestCase {
             $commandeEntity = Commande::find($id);
             $commandeDTO = self::$serviceCommande->accederCommande($id);
 
-            self::$serviceCommande->ValiderCommande($id);
+            self::$serviceCommande->validationCommande($id);
 
             $this->assertNotNull($commandeDTO);
             $this->assertEquals($id, $commandeDTO->id);
