@@ -6,12 +6,17 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 return function( \Slim\App $app):void {
 
-    $app->post('/commandes[/]', \pizzashop\shop\app\actions\CreerCommandeAction::class)
-        ->setName('creer_commande');
+    $app->get('/', function (Request $request, Response $response, array $args) {
+        $response->getBody()->write("Hello world!");
+        return $response;
+    });
 
-    $app->get('/commandes/{id_commande}[/]', \pizzashop\shop\app\actions\AccederCommandeAction::class)
-        ->setName('commande');
+    // $app->post('/commandes[/]', \pizzashop\shop\app\actions\CreerCommandeAction::class)
+    //     ->setName('creer_commande');
+
+    // $app->get('/commandes/{id_commande}[/]', \pizzashop\shop\app\actions\AccederCommandeAction::class)
+    //     ->setName('commande');
     
-    $app->patch('/commandes/{id_commande}[/]', \pizzashop\shop\app\actions\ValiderCommandeAction::class)
-        ->setName('valider_commande');
+    // $app->patch('/commandes/{id_commande}[/]', \pizzashop\shop\app\actions\ValiderCommandeAction::class)
+    //     ->setName('valider_commande');
 };
