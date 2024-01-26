@@ -14,11 +14,10 @@ $queueName = 'nouvelles_commandes';
 // Déclare la queue si elle n'existe pas
 $channel->queue_declare($queueName, false, true, false, false);
 
-// Génère une commande aléatoire (vous pouvez ajuster cette partie en fonction de vos besoins)
+// Génère une commande aléatoire
 $commandData = [
     'command' => 'votre_commande',
-    'parametre' => 'votre_parametre',
-    // ... ajoutez d'autres données si nécessaire
+    'parametre' => 'votre_parametre'
 ];
 
 // Convertit la commande en JSON

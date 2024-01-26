@@ -26,6 +26,15 @@ services:
       - RABBITMQ_DEFAULT_USER=admin
       - RABBITMQ_DEFAULT_PASS=@dm1#!
 
+  node:
+    image: node:20-alpine
+    command: npm run dev
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+    working_dir: /app
+
 
   # Service API PHP
   #
