@@ -3,15 +3,14 @@
 namespace pizzashop\shop\domain\service\catalogue;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use pizzashop\shop\domain\service\catalogue\iInfocatalogue;
 use pizzashop\shop\domain\dto\catalogue\ProduitDTO;
 use pizzashop\shop\domain\entities\catalogue\Produit;
-use pizzashop\shop\domain\service\exception\ServiceProduitNotFoundException;
+use pizzashop\shop\domain\exception\ProduitNonTrouveeException;
 
 /**
  * Service de gestion du catalogue
  */
-class ServiceCatalogue implements \pizzashop\shop\domain\service\catalogue\iInfoCatalogue {
+class ServiceCatalogue implements iInfoCatalogue, iInfoProduit {
 
     function __construct() {}
 
@@ -20,13 +19,13 @@ class ServiceCatalogue implements \pizzashop\shop\domain\service\catalogue\iInfo
      * @param $numero
      * @param $taille
      * @return ProduitDTO
-     * @throws ServiceProduitNotFoundException
+     * @throws ProduitNonTrouveeException
      */
     function getProduit(int $numero, int $taille) : ProduitDTO {
         try {
             $produit = Produit::where('numero', '=', $numero)->firstOrFail();
         }catch (ModelNotFoundException $e) {
-            throw new ServiceProduitNotFoundException($numero);
+            throw new ProduitNonTrouveeException($numero);
         }
         return $produit->toDTO();
     }
@@ -35,14 +34,14 @@ class ServiceCatalogue implements \pizzashop\shop\domain\service\catalogue\iInfo
      * Retourne un produit du catalogue en fonction de son numéro
      * @param $numero
      * @return array
-     * @throws ServiceProduitNotFoundException
+     * @throws ProduitNonTrouveeException
      */
     function getProduitByNum(int $numero) : array {
         //get un produit et le retourne en tant que tableau, affiche son prix en fonction de chaque taille
         try {
             $produit = Produit::where('numero', '=', $numero)->firstOrFail();
         }catch (ModelNotFoundException $e) {
-            throw new ServiceProduitNotFoundException($numero);
+            throw new ProduitNonTrouveeException($numero);
         }
         $produitDTO = array();
         foreach ($produit->tailles()->get() as $taille) {

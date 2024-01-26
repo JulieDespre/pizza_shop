@@ -6,44 +6,34 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use pizzashop\shop\domain\dto\commande\CommandeDTO;
 use pizzashop\shop\domain\entities\commande\Commande;
 use pizzashop\shop\domain\entities\commande\Item;
-use pizzashop\shop\domain\service\exception\ServiceCommandeInvalidItemException;
-use pizzashop\shop\domain\service\exception\ServiceCommandeInvalidTransitionException;
-use pizzashop\shop\domain\service\exception\ServiceCommandeInvialideException;
-use pizzashop\shop\domain\service\exception\ServiceCommandeNotFoundException;
-use pizzashop\shop\domain\service\exception\ServiceProduitNotFoundException;
+use pizzashop\shop\domain\exception\CommandeNonTrouveeException;
+use pizzashop\shop\domain\exception\ValidationCommandeException;
+use pizzashop\shop\domain\service\catalogue\ServiceCatalogue;
 use Psr\Log\LoggerInterface;
-use Ramsey\Uuid\Uuid;
-use Respect\Validation\Exceptions\NestedValidationException;
-use Respect\Validation\Validator as validate;
 
 /**
  * Service de gestion des commandes.
  */
 class ServiceCommande implements iCommander {
-
-    private \pizzashop\shop\domain\service\catalogue\iInfoCatalogue $serviceCatalogue;
     private LoggerInterface $logger;
+    private ServiceCatalogue $serviceCatalogue;
 
-    /*function __construct(\pizzashop\shop\domain\service\catalogue\iInfoCatalogue $serviceCatalogue){
-        $this->serviceCatalogue = $serviceCatalogue;
-    }*/
-
-    function __construct(\pizzashop\shop\domain\service\catalogue\iInfoCatalogue $serviceCatalogue, LoggerInterface $logger){
+    public function __construct(LoggerInterface $logger, ServiceCatalogue $serviceCatalogue){
         $this->serviceCatalogue = $serviceCatalogue;
         $this->logger = $logger;
     }
     /**
      * Accède à une commande spécifique en utilisant son identifiant.
      *
-     * @param string $commandeId L'identifiant de la commande à accéder.
+     * @param string $CommandeID L'identifiant de la commande à accéder.
      * @return CommandeDTO La commande correspondante.
-     * @throws ServiceCommandeNotFoundException Si la commande n'est pas trouvée.
+     * @throws CommandeNonTrouveeException Si la commande n'est pas trouvée.
      */
-    public function accederCommande(string $commandeId): CommandeDTO {
+    public function accederCommande(string $CommandeID): CommandeDTO {
         try {
-            $commande = Commande::where('id', $commandeId)->firstOrFail($commandeId);
+            $commande = Commande::findOrFail($CommandeID);
         }catch (ModelNotFoundException $e){
-                throw new ServiceCommandeNotFoundException("La commande $commandeId n'existe pas");
+                throw new CommandeNonTrouveeException("La commande $CommandeID n'existe pas");
             }
             return $commande->toDTO();
         }
@@ -52,25 +42,42 @@ class ServiceCommande implements iCommander {
     /**
      * Modifie une commande spécifique en utilisant son identifiant et de nouvelles données.
      *
-     * @param string $commandeId L'identifiant de la commande à modifier.
+     * @param string $CommandeID L'identifiant de la commande à modifier.
      * @param CommandeDTO $nouvellesDonnees Les nouvelles données de la commande.
      * @return CommandeDTO La commande modifiée.
-     * @throws ServiceCommandeNotFoundException Si la commande n'est pas trouvée.
-     * @throws ServiceException Si une erreur survient lors de la modification de la commande.
+     * @throws CommandeNonTrouveeException Si la commande n'est pas trouvée.
+     * @throws ValidationCommandeException Si une erreur survient lors de la modification de la commande.
      */
-    public function validerCommande(string $commandeId): CommandeDTO{
+    public function validerCommande(string $CommandeID): CommandeDTO{
      try {
-            $commande = Commande::where('id', $commandeId)->firstOrFail();
+            $commande = Commande::findOrFail($CommandeID);
+
+            if ($commande->etat >= Commande::ETAT_VALIDE) {
+                throw new ValidationCommandeException("La commande $CommandeID est déjà validée");
+            }
+
+            if ($commande->type_livraison == Commande::LIVRAISON_A_DOMICILE) {
+                $commande->delai = 60;
+            } else {
+                $commande->delai = 30;
+            }
+
+            if ($commande->type_livraison == Commande::LIVRAISON_A_EMPORTER) {
+                $commande->etat = Commande::ETAT_PREPARATION;
+            } else {
+                $commande->etat = Commande::ETAT_EN_COURS_DE_LIVRAISON;
+            }
+
+            $commande->update(['etat' => Commande::ETAT_VALIDE]);
+
+            $this->logger->info("Commande $CommandeID validée");
+
         } catch (ModelNotFoundException $e) {
-            throw new ServiceCommandeNotFoundException($commandeId);
+            throw new CommandeNonTrouveeException("La commande $CommandeID n'existe pas");
+        } catch (ValidationCommandeException $e) {
+            throw $e;
         }
-        if ($commande->etat >= Commande::ETAT_VALIDE) {
-            throw new ServiceCommandeInvalidTransitionException($commandeId);
-        }
-        $commande->update(['etat' => Commande::ETAT_VALIDE]);
-        $this->logger->info("Commande $commandeId validée");
-        
-        
+
         return $commande->toDTO();
     }
     
@@ -79,64 +86,40 @@ class ServiceCommande implements iCommander {
      *
      * @param CommandeDTO $commandeDTO Les données de la commande à créer.
      * @return CommandeDTO La commande créée.
-     * @throws ServiceException Si une erreur survient lors de la création de la commande.
+     * @throws ValidationCommandeException Si une erreur survient lors de la création de la commande.
      */
-    public function creerCommande (CommandeDTO $commandeDTO): CommandeDTO{
-        //valide les données de la commande
-        $this->validerDonneesDeCommande($commandeDTO);
+    public function creerCommande(CommandeDTO $commandeDTO): CommandeDTO {
+        $create = new Commande();
         
-        //créer donnée de la commande 
-        $commandeDTO->id = Uuid::uuid4();//génère unique ID
-        $commandeDTO->date_commande = date('Y-m-d H:i:s');
-        $commandeDTO->etat = Commande::ETAT_CREE;
-        $commandeDTO->delai = 0;
+        // Assigner les valeurs des attributs de la commande
+        $create->date_commande = date('Y-m-d H:i:s');
+        $create->type_livraison = 'A DOMICILE';
+        $create->etat = Commande::ETAT_CREE;
+        $create->montant_total = 0;
+        $create->mail_client = 'bernard@gmail.com';
+        $create->delai = 10;
+        
+        // Enregistrer la commande dans la base de données
+        $create->save();
 
+        // Assigner l'identifiant de la commande
+        $commandeDTO->id = $create->id;
 
-        $commande = Commande::create([
-            'id' => $commandeDTO->id,
-            'date_commande' => $commandeDTO->date_commande,
-            'type_livraison' => $commandeDTO->type_livraison,
-            'etat' => $commandeDTO->etat,
-            'mail_client' => $commandeDTO->mail_client,
-            'delai' => $commandeDTO->delai,
-        ]);
-
-        //creer les items d'une commande
-        //$commandeDTO->items = [];
-        foreach ($commandeDTO->items as $itemDTO){
+        // Assigner les valeurs des attributs des items de la commande
+        foreach ($commandeDTO->items as $itemDTO) {
             $item = new Item();
-            $item->id = Uuid::uuid4();
-            $item->numero = $itemDTO->numero;
-            $item->taille = $itemDTO->taille;
             $item->quantite = $itemDTO->quantite;
-            $item->commande_id = $commande->id;
+            $item->tarif = $itemDTO->tarif;
+            $item->taille_id = $itemDTO->taille_id;
+            $item->produit_id = $itemDTO->produit_id;
+            $item->commande_id = $commandeDTO->id;
             $item->save();
-            $itemDTO->id = $item->id;
-            $commandeDTO->items[] = $itemDTO;
-
-        
         }
-        $commande->save();
-        $this->logger->info("Nouvelle commande créée avec l'ID: " . $commandeDTO->id);
+
+        $this->calculerMontantTotal($commandeDTO->id);
+
+
         return $commandeDTO;
-    }
- 
-    private function validerDonneesDeCommande(CommandeDTO $commandeDTO){
-        try {
 
-            validate::attribute('mail_client', validate::email())
-                ->attribute('type_livraison', validate::in([Commande::LIVRAISON_SUR_PLACE,
-                    Commande::LIVRAISON_A_EMPORTER, Commande::LIVRAISON_A_DOMICILE]))
-                ->attribute('items', validate::array()->notEmpty()
-                    ->each(validate::attribute('numero', validate::intVal()->positive())
-                    ->attribute('taille', validate::in([1,2]))
-                    ->attribute('quantite', validate::intVal()->positive())
-
-                    ))
-        
-                ->assert($commandeDTO);
-            }catch (NestedValidationException $e){
-            throw new ServiceCommandeInvalidDataException("Les données de la commande sont invalides");
-        }
     }
 }

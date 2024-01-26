@@ -4,8 +4,9 @@ namespace pizzashop\shop\domain\entities\commande;
 
 use Illuminate\database\Eloquent\Model;
 use pizzashop\shop\domain\dto\commande\ItemDTO;
+use pizzashop\shop\domain\entities\Commande;
 
-class Item extends \Illuminate\Database\Eloquent\Model{
+class Item extends Model{
     //propriétés connexion à la base de données
     protected $connection = 'commande';
     protected $table = 'item';

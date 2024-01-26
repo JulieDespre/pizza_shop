@@ -1,15 +1,16 @@
 <?php
 
 namespace pizzashop\shop\domain\entities\commande;
-use pizzashop\shop\domain\entities\commande\CommandeDTO;
+use pizzashop\shop\domain\dto\commande\CommandeDTO;
 
 class Commande extends \Illuminate\Database\Eloquent\Model
 {
+
     const ETAT_CREE = 1;
     const ETAT_VALIDE = 2;
-    const ETAT_PAYEE = 3;
-    const ETAT_LIVREE = 4;
-
+    const ETAT_PREPARATION = 3;
+    const ETAT_EN_COURS_DE_LIVRAISON = 4;
+    const ETAT_LIVREE = 5;
     const LIVRAISON_SUR_PLACE = 1;
     const LIVRAISON_A_DOMICILE = 2;
     const LIVRAISON_A_EMPORTER = 3;
@@ -70,4 +71,5 @@ class Commande extends \Illuminate\Database\Eloquent\Model
     return $commandeDTO;
     }
 
+    
 }
