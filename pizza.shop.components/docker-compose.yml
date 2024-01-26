@@ -26,15 +26,20 @@ services:
       - RABBITMQ_DEFAULT_USER=admin
       - RABBITMQ_DEFAULT_PASS=@dm1#!
 
-  node:
-    image: node:20-alpine
-    command: npm run dev
-    ports:
-      - 3000:3000
+  websocket:
+    image: node:alpine
+    networks:
+      - pizza-shop.net
+    working_dir: /usr/app
+    command: sh -c "npm i && npm run watch" #for development only
+    #command: sh -c "npm i && npm start" #for production only
     volumes:
-      - .:/app
-    working_dir: /app
-
+      - ../notifications.pizza-shop:/usr/app
+    ports:
+      - "3333:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=development
 
   # Service API PHP
   #
