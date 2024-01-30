@@ -11,9 +11,6 @@ $channel = $connection->channel();
 // Nom de la queue
 $queueName = 'nouvelles_commandes';
 
-// Déclare la queue si elle n'existe pas
-$channel->queue_declare($queueName, false, true, false, false);
-
 // Génère une commande aléatoire
 $commandData = [
     'command' => 'votre_commande',
