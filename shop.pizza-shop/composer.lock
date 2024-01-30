@@ -1152,16 +1152,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.72.1",
+            "version": "2.72.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "2b3b3db0a2d0556a177392ff1a3bf5608fa09f78"
+                "reference": "3e7edc41b58d65509baeb0d4a14c8fa41d627130"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/2b3b3db0a2d0556a177392ff1a3bf5608fa09f78",
-                "reference": "2b3b3db0a2d0556a177392ff1a3bf5608fa09f78",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/3e7edc41b58d65509baeb0d4a14c8fa41d627130",
+                "reference": "3e7edc41b58d65509baeb0d4a14c8fa41d627130",
                 "shasum": ""
             },
             "require": {
@@ -1255,7 +1255,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-12-08T23:47:49+00:00"
+            "time": "2024-01-19T00:21:53+00:00"
         },
         {
             "name": "nikic/fast-route",
@@ -2580,41 +2580,42 @@
         },
         {
             "name": "respect/validation",
-            "version": "2.2.4",
+            "version": "2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Respect/Validation.git",
-                "reference": "d304ace5325efd7180daffb1f8627bb0affd4e3a"
+                "reference": "4c91e3397ac600e3c53562a977002f3edc17ff6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Respect/Validation/zipball/d304ace5325efd7180daffb1f8627bb0affd4e3a",
-                "reference": "d304ace5325efd7180daffb1f8627bb0affd4e3a",
+                "url": "https://api.github.com/repos/Respect/Validation/zipball/4c91e3397ac600e3c53562a977002f3edc17ff6a",
+                "reference": "4c91e3397ac600e3c53562a977002f3edc17ff6a",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.4 || ^8.0 || ^8.1 || ^8.2",
+                "php": "^8.1 || ^8.2",
                 "respect/stringifier": "^0.2.0",
                 "symfony/polyfill-mbstring": "^1.2"
             },
             "require-dev": {
                 "egulias/email-validator": "^3.0",
-                "malukenho/docheader": "^0.1",
+                "giggsey/libphonenumber-for-php-lite": "^8.13",
+                "malukenho/docheader": "^1.0",
                 "mikey179/vfsstream": "^1.6",
                 "phpstan/phpstan": "^1.9",
                 "phpstan/phpstan-deprecation-rules": "^1.1",
                 "phpstan/phpstan-phpunit": "^1.3",
                 "phpunit/phpunit": "^9.6",
                 "psr/http-message": "^1.0",
-                "respect/coding-standard": "^3.0",
-                "squizlabs/php_codesniffer": "^3.7",
-                "symfony/validator": "^3.0||^4.0"
+                "respect/coding-standard": "^4.0",
+                "squizlabs/php_codesniffer": "^3.7"
             },
             "suggest": {
-                "egulias/email-validator": "Strict (RFC compliant) email validation",
+                "egulias/email-validator": "Improves the Email rule if available",
                 "ext-bcmath": "Arbitrary Precision Mathematics",
                 "ext-fileinfo": "File Information",
-                "ext-mbstring": "Multibyte String Functions"
+                "ext-mbstring": "Multibyte String Functions",
+                "giggsey/libphonenumber-for-php-lite": "Enables the phone rule if available"
             },
             "type": "library",
             "autoload": {
@@ -2641,9 +2642,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Respect/Validation/issues",
-                "source": "https://github.com/Respect/Validation/tree/2.2.4"
+                "source": "https://github.com/Respect/Validation/tree/2.3.1"
             },
-            "time": "2023-02-15T01:05:24+00:00"
+            "time": "2024-01-28T13:55:45+00:00"
         },
         {
             "name": "slim/psr7",
@@ -4447,16 +4448,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.7",
+            "version": "10.5.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "e5c5b397a95cb0db013270a985726fcae93e61b8"
+                "reference": "0bd663704f0165c9e76fe4f06ffa6a1ca727fdbe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/e5c5b397a95cb0db013270a985726fcae93e61b8",
-                "reference": "e5c5b397a95cb0db013270a985726fcae93e61b8",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/0bd663704f0165c9e76fe4f06ffa6a1ca727fdbe",
+                "reference": "0bd663704f0165c9e76fe4f06ffa6a1ca727fdbe",
                 "shasum": ""
             },
             "require": {
@@ -4528,7 +4529,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.7"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.9"
             },
             "funding": [
                 {
@@ -4544,7 +4545,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-01-14T16:40:30+00:00"
+            "time": "2024-01-22T14:35:40+00:00"
         },
         {
             "name": "sebastian/cli-parser",

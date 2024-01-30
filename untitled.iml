@@ -8,14 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/shop.pizza-shop/./src" isTestSource="false" packagePrefix="pizzashop\shop\" />
       <sourceFolder url="file://$MODULE_DIR$/shop.pizza-shop/./tests" isTestSource="false" packagePrefix="pizzashop\tests\" />
       <sourceFolder url="file://$MODULE_DIR$/shop.pizza-shop/tests" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/shop.pizza-shop/spec" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/shop.pizza-shop/vendor/fakerphp/faker" />
-      <excludeFolder url="file://$MODULE_DIR$/shop.pizza-shop/vendor/paragonie/constant_time_encoding" />
-      <excludeFolder url="file://$MODULE_DIR$/shop.pizza-shop/vendor/paragonie/random_compat" />
-      <excludeFolder url="file://$MODULE_DIR$/shop.pizza-shop/vendor/php-amqplib/php-amqplib" />
-      <excludeFolder url="file://$MODULE_DIR$/shop.pizza-shop/vendor/phpseclib/phpseclib" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

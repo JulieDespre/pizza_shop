@@ -2,7 +2,8 @@
 
 namespace pizzashop\shop\domain\dto\item;
 
-class ItemDTO {
+class ItemDTO
+{
     public string $id;
     public string $libelle;
     public string $libelle_taille;

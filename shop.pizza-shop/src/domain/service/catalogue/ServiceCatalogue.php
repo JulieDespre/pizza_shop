@@ -17,12 +17,12 @@ class ServiceCatalogue implements \pizzashop\shop\domain\service\catalogue\iInfo
 
     /**
      * Retourne un produit du catalogue en fonction de son numéro et de la taille
-     * @param $numero
-     * @param $taille
+     * @param int $numero
+     * @param mixed $taille
      * @return ProduitDTO
      * @throws ServiceProduitNotFoundException
      */
-    function getProduit(int $numero, int $taille) : ProduitDTO {
+    public function getProduit(int $numero, $taille) : ProduitDTO {
         try {
             $produit = Produit::where('numero', '=', $numero)->firstOrFail();
         }catch (ModelNotFoundException $e) {
