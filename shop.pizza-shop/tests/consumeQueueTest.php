@@ -2,14 +2,13 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
-use PhpAmqpLib\Message\AMQPMessage;
 
-echo "---------------------------------";
-echo "Début du script";
-
-// Paramètres de connexion à RabbitMQ
-
-$connection = new AMQPStreamConnection('rabbitmq', 5672, 'admin', '@dm1#!');
+$connection=null;
+try {
+    $connection = new AMQPStreamConnection('rabbitmq', 5672, 'admin', '@dm1#!');
+} catch (Exception $e) {
+    var_dump($e->getMessage());
+}
 $channel = $connection->channel();
 
 $queue_name="nouvelles_commandes";
@@ -23,10 +22,13 @@ $channel->basic_consume($queue_name, '', false, true, false, false, $callback);
 
 try {
     $channel->consume();
-} catch (\Throwable $exception) {
+} catch (Throwable $exception) {
     echo $exception->getMessage();
 }
 
-// Ferme la connexion
 $channel->close();
-$connection->close();
+try {
+    $connection->close();
+} catch (Exception $e) {
+    var_dump($e->getMessage());
+}

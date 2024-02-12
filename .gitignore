@@ -33,3 +33,6 @@ vendor/
 
 ### RabbitMQ ###
 rabbitmq.pizza-shop/
+
+### IntelliJ ###
+untitled.iml
