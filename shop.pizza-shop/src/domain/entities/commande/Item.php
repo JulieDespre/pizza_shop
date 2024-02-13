@@ -3,8 +3,8 @@
 namespace pizzashop\shop\domain\entities\commande;
 
 use Illuminate\database\Eloquent\Model;
-use pizzashop\shop\domain\dto\commande\ItemDTO;
-use pizzashop\shop\domain\entities\Commande;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use pizzashop\shop\domain\entities\commande\Commande;
 
 class Item extends Model{
     //propriétés connexion à la base de données
@@ -14,8 +14,7 @@ class Item extends Model{
     public $timestamps = false;
     protected $fillable = ['id', 'numero', 'libelle', 'taille', 'libelle_taille', 'tarif','quantite', 'commande_id'];
 
-    public function getCommande(): BelongsTo { //retourne objet de type BelongsTo, lien vers la commande
+    public function getCommande(): BelongsTo {
         return $this->belongsTo(Commande::class, 'commande_id');
     }
-
 }
