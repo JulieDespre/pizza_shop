@@ -2,7 +2,10 @@
 
 namespace pizzashop\shop\domain\entities\catalogue;
 
-class Taille extends \Illuminate\Database\Eloquent\Model
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
+class Taille extends Model
 {
 
     const NORMALE = 1;
@@ -14,7 +17,7 @@ class Taille extends \Illuminate\Database\Eloquent\Model
     public $timestamps = false;
     protected $fillable = [ 'libelle'];
 
-    public function produits()
+    public function produits(): BelongsToMany
     {
         return $this->belongsToMany(Produit::class, 'tarif', 'taille_id', 'produit_id');
     }

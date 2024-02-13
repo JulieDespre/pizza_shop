@@ -3,7 +3,6 @@
 namespace pizzashop\shop\domain\service\catalogue;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use pizzashop\shop\domain\service\catalogue\iInfocatalogue;
 use pizzashop\shop\domain\dto\catalogue\ProduitDTO;
 use pizzashop\shop\domain\entities\catalogue\Produit;
 use pizzashop\shop\domain\service\exception\ServiceProduitNotFoundException;
@@ -11,21 +10,22 @@ use pizzashop\shop\domain\service\exception\ServiceProduitNotFoundException;
 /**
  * Service de gestion du catalogue
  */
-class ServiceCatalogue implements \pizzashop\shop\domain\service\catalogue\iInfoCatalogue {
+class ServiceCatalogue implements iInfoCatalogue
+{
 
     function __construct() {}
 
     /**
      * Retourne un produit du catalogue en fonction de son numéro et de la taille
-     * @param $numero
-     * @param $taille
+     * @param int $numero
+     * @param int $taille
      * @return ProduitDTO
      * @throws ServiceProduitNotFoundException
      */
     function getProduit(int $numero, int $taille) : ProduitDTO {
         try {
             $produit = Produit::where('numero', '=', $numero)->firstOrFail();
-        }catch (ModelNotFoundException $e) {
+        }catch (ModelNotFoundException) {
             throw new ServiceProduitNotFoundException($numero);
         }
         return $produit->toDTO();
@@ -33,7 +33,7 @@ class ServiceCatalogue implements \pizzashop\shop\domain\service\catalogue\iInfo
 
     /**
      * Retourne un produit du catalogue en fonction de son numéro
-     * @param $numero
+     * @param int $numero
      * @return array
      * @throws ServiceProduitNotFoundException
      */
@@ -41,7 +41,7 @@ class ServiceCatalogue implements \pizzashop\shop\domain\service\catalogue\iInfo
         //get un produit et le retourne en tant que tableau, affiche son prix en fonction de chaque taille
         try {
             $produit = Produit::where('numero', '=', $numero)->firstOrFail();
-        }catch (ModelNotFoundException $e) {
+        }catch (ModelNotFoundException) {
             throw new ServiceProduitNotFoundException($numero);
         }
         $produitDTO = array();
@@ -70,7 +70,7 @@ class ServiceCatalogue implements \pizzashop\shop\domain\service\catalogue\iInfo
      * @param $categorie_id int id de la catégorie
      * @return array tableau de ProduitDTO
      */
-    function getProduitByCategorie($categorie_id) : array
+    function getProduitByCategorie(int $categorie_id) : array
     {
         $produits = Produit::where('categorie_id', '=', $categorie_id)->get();
         $produitsDTO = array();

@@ -1,7 +1,9 @@
 <?php
  namespace pizzashop\shop\domain\service\exception;
 
- class ServiceCommandeNotFoundException extends \Exception
+ use Exception;
+
+ class ServiceCommandeNotFoundException extends Exception
  {
      public function __construct(string $UUID)
      {

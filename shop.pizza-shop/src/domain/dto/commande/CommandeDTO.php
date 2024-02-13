@@ -11,14 +11,12 @@ class CommandeDTO {
     public string $mail_client;
     public string $delai;
     public array $items = [];
-   
+
     /**
      * CommandeDTO constructor.
-     * @param string $id
      * @param string $mail_client
      * @param string $type_livraison
      * @param array $items
-     * @return void
      */
     public function __construct(string $mail_client, string $type_livraison, array $items){
         $this->mail_client = $mail_client;
@@ -33,7 +31,8 @@ class CommandeDTO {
      * @param Item $item
      * @return void
      */
-    public function addItem(Item $item) {
+    public function addItem(Item $item): void
+    {
         $this->items[] = $item->toDTO();
     }
 }

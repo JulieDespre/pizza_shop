@@ -3,38 +3,43 @@
 namespace pizzashop\shop\domain\service\commande;
 
 use pizzashop\shop\domain\dto\commande\CommandeDTO;
+use pizzashop\shop\domain\service\exception\ServiceCommandeInvalideException;
+use pizzashop\shop\domain\service\exception\ServiceCommandeInvalidItemException;
+use pizzashop\shop\domain\service\exception\ServiceCommandeInvalidTransitionException;
+use pizzashop\shop\domain\service\exception\ServiceCatalogueNotFoundException;
+use pizzashop\shop\domain\service\exception\ServiceException;
+use pizzashop\shop\domain\service\exception\ServiceProduitNotFoundException;
 
 interface iCommander
 {
     /**
      * Crée une nouvelle commande.
      *
-     * @param CommandeDTO $c Les données de la commande à créer.
+     * @param CommandeDTO $commandeDTO
      * @return CommandeDTO La commande créée.
      * @throws ServiceCommandeInvalidItemException Si un ou plusieurs items de la commande sont invalides.
      * @throws ServiceCommandeInvalidTransitionException Si la transition de la commande est invalide.
-     * @throws ServiceCommandeInvialideException Si la commande est invalide.
+     * @throws ServiceCommandeInvalideException Si la commande est invalide.
      * @throws ServiceProduitNotFoundException Si un produit de la commande n'est pas trouvé.
      */
-    function creerCommande(CommandeDTO $c) : CommandeDTO;
+    function creerCommande(CommandeDTO $commandeDTO) : CommandeDTO;
 
     /**
      * Modifie une commande spécifique en utilisant son identifiant et de nouvelles données.
      *
-     * @param string $id L'identifiant de la commande à modifier.
-     * @param CommandeDTO $nouvellesDonnees Les nouvelles données de la commande.
+     * @param string $commandeId
      * @return CommandeDTO La commande modifiée.
-     * @throws ServiceCommandeNotFoundException Si la commande n'est pas trouvée.
+     * @throws ServiceCatalogueNotFoundException Si la commande n'est pas trouvée.
      * @throws ServiceException Si une erreur survient lors de la modification de la commande.
      */
-    function validerCommande(string $id) : CommandeDTO;
+    function validerCommande(string $commandeId) : CommandeDTO;
 
     /**
      * Accède à une commande spécifique en utilisant son identifiant.
      *
-     * @param string $id L'identifiant de la commande à accéder.
+     * @param string $commandeId
      * @return CommandeDTO La commande correspondante.
-     * @throws ServiceCommandeNotFoundException Si la commande n'est pas trouvée.
+     * @throws ServiceCatalogueNotFoundException Si la commande n'est pas trouvée.
      */
-    function accederCommande(string $id) : CommandeDTO;
+    function accederCommande(string $commandeId) : CommandeDTO;
 }

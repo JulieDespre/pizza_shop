@@ -2,14 +2,10 @@
 
 namespace pizzashop\shop\app\actions;
 
-use pizzashop\shop\domain\service\commande\iCommander;
-use pizzashop\shop\domain\service\commande\ServiceCommande;
-use pizzashop\shop\domain\service\commande\ServiceCommandeNotFoundException;
+use pizzashop\shop\domain\service\exception\ServiceCatalogueNotFoundException;
 use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Routing\RouteContext;
-use Symfony\Component\Console\Exception\CommandNotFoundException;
 
 
 /**
@@ -55,7 +51,7 @@ class AccederCommandeAction
                                 ]
                         ];
                         $code = 200;
-                    } catch (ServiceCommandeNotFoundException $e) {
+                    } catch (ServiceCatalogueNotFoundException $e) {
                         // si la commande n'est pas trouvée, on lève une exception
                         $data = [
                             "message" => "404 Not Found",
